@@ -1,0 +1,43 @@
+package com.br.socialapi.socialapi.resources;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.br.socialapi.socialapi.domain.Livro;
+import com.br.socialapi.socialapi.repository.LivroRepository;
+
+@RestController
+@RequestMapping(value = "/livros")
+public class LivroResources {
+
+	@Autowired
+	private LivroRepository livroRepository;
+	
+	@RequestMapping(method=RequestMethod.GET)
+	public List<Livro> listar() {
+		return livroRepository.findAll();
+	}
+	@RequestMapping(method=RequestMethod.POST)
+	public void salvar(@RequestBody Livro livro) {
+		livroRepository.save(livro);
+	}
+	@RequestMapping(value = "/{id}" ,method=RequestMethod.GET)
+	public Livro buscar(@PathVariable("id") Long id) {
+		return livroRepository.getOne(id);
+	}
+	@RequestMapping(value = "/{id}" ,method=RequestMethod.DELETE)
+	public void deletar(@PathVariable("id") Long id) {
+		livroRepository.deleteById(id);
+	}
+	@RequestMapping(value = "/{id}" ,method=RequestMethod.PUT)
+	public void alterar(@RequestBody Livro livro,@PathVariable("id") Long id) {
+		livro.setId(id);
+		livroRepository.save(livro);
+	}
+}

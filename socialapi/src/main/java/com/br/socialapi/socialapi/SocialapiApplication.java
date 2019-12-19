@@ -1,0 +1,12 @@
+package com.br.socialapi.socialapi;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class SocialapiApplication {
+	public static void main(String[] args) {
+		SpringApplication.run(SocialapiApplication.class, args);
+	}
+
+}
