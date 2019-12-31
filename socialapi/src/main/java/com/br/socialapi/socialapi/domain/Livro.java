@@ -23,7 +23,7 @@ public class Livro implements Serializable{
 	@Id
 	@GeneratedValue
 	private Long id;
-	@JsonInclude(Include.NON_NULL)
+	
 	private String nome;
 	@JsonInclude(Include.NON_NULL)
 	private Date publicacao;
