@@ -2,7 +2,8 @@ package br.com.sistemaFinanceiro.model;
 
 import br.com.sistemaFinanceiro.enumerador.SituacaoConta;
 
-public class Conta {
+public abstract class Conta {
+    
 	public String descricao;
 	public double valor;
 	public String dataVencimento;
@@ -33,4 +34,5 @@ public class Conta {
 		this.dataVencimento = dataVencimento;
 	}
 	
+	public abstract void exibirDetalhes(Conta[] contas);
 }

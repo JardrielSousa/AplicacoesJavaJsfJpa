@@ -1,6 +1,6 @@
 package br.com.sistemaFinanceiro.model;
 
-public class Pessoa {
+public abstract class Pessoa {
 	private String nome;
 
 	public String getNome() {

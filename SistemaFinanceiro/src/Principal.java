@@ -1,7 +1,9 @@
 import br.com.sistemaFinanceiro.model.Cliente;
+import br.com.sistemaFinanceiro.model.Conta;
 import br.com.sistemaFinanceiro.model.Fornecedor;
 import br.com.sistemaFinanceiro.service.ContaPagar;
 import br.com.sistemaFinanceiro.service.ContaReceber;
+import br.com.sistemaFinanceiro.service.RelatorioContas;
 
 public class Principal {
 
@@ -30,6 +32,11 @@ public class Principal {
 		
 		contaReceber.receber();
 		contaReceber2.cancelar();
+		
+		RelatorioContas relatorioContas = new RelatorioContas();
+		Conta[] contas = new Conta[]{
+		  conta1,conta2,contaReceber,contaReceber2};
+		relatorioContas.exibirContas(contas);
 	}
 
 }

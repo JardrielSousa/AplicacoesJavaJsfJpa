@@ -8,6 +8,9 @@ public class ContaReceber extends Conta{
 	private String descricao ;
 	private double valor ;
 	private String dataVencimento;
+	public ContaReceber() {
+	    
+	}
 	public ContaReceber(Cliente cliente ,String descricao , double valor , String dataVencimento){
 		this.cliente = cliente;
 		this.descricao = descricao;
@@ -29,5 +32,11 @@ public class ContaReceber extends Conta{
 		if(valor<50000.00) {
 			System.out.println("A conta(Receber) foi cancelada com sucesso !!!");
 		}
+	}
+
+	@Override
+	public void exibirDetalhes(Conta[] contas) {
+	   
+	    
 	}
 }
