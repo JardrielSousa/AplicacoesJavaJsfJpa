@@ -4,11 +4,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.stereotype.Service;
 
 import com.br.socialapi.socialapi.domain.Livro;
 import com.br.socialapi.socialapi.repository.LivroRepository;
 import com.br.socialapi.socialapi.service.exceptions.LivroNaoEncontradoExceptions;
 
+@Service
 public class LivrosService {
 	@Autowired
 	private LivroRepository livroRepository;
