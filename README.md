@@ -8,3 +8,10 @@ Spring Boot
 Java 8
 POO
 Rest Api
+
+
+Requisitos:
+Social Api 
+> Ajustar put de livros 
+> Construir Excessão genericas
+> refactor na Apresentação do code / anotações
