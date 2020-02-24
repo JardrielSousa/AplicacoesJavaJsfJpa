@@ -8,7 +8,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -23,15 +26,17 @@ public class Livro implements Serializable{
 	@Id
 	@GeneratedValue
 	private Long id;
-	
+	@NotEmpty(message = "O Campo nome não pode ser vazio")
 	private String nome;
 	@JsonInclude(Include.NON_NULL)
+	@JsonFormat(pattern = "dd/mm/yyyy")
 	private Date publicacao;
 	@JsonInclude(Include.NON_NULL)
 	private String editora;
 	@JsonInclude(Include.NON_NULL)
+	@Size(max = 1500)
 	private String resumo;
-	@JsonInclude(Include.NON_NULL)
+	@JsonInclude(Include.NON_EMPTY)
 	@Transient
 	private List<Comentario> comentario ;
 	@JsonInclude(Include.NON_NULL)

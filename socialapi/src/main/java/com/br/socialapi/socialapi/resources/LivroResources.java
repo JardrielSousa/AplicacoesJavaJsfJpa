@@ -1,8 +1,13 @@
 package com.br.socialapi.socialapi.resources;
 import java.net.URI;
+import java.util.concurrent.TimeUnit;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.web.ResourceProperties.Cache.Cachecontrol;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.br.socialapi.socialapi.domain.Livro;
-import com.br.socialapi.socialapi.repository.LivroRepository;
 import com.br.socialapi.socialapi.service.LivrosService;
 import com.br.socialapi.socialapi.service.exceptions.LivroNaoEncontradoExceptions;
 
@@ -29,7 +33,7 @@ public class LivroResources {
 		return ResponseEntity.status(HttpStatus.OK).body(livroService.listar()) ;
 	}
 	@RequestMapping(method=RequestMethod.POST)
-	public ResponseEntity<Void> salvar(@RequestBody Livro livro) {
+	public ResponseEntity<Void> salvar(@Valid @RequestBody Livro livro) {
 		livro = livroService.salvar(livro);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
 				.path("/{id}").buildAndExpand(livro.getId()).toUri();
@@ -38,12 +42,13 @@ public class LivroResources {
 	@RequestMapping(value = "/{id}" ,method=RequestMethod.GET)
 	public ResponseEntity<?> buscar(@PathVariable("id") Long id) {
 		Livro livro = null;
+		CacheControl cachecontrol = CacheControl.maxAge(20, TimeUnit.SECONDS);
 		try {
 			livroService.buscar(id);
 		} catch (LivroNaoEncontradoExceptions e) {
 			return ResponseEntity.notFound().build();
 		}			
-		return ResponseEntity.status(HttpStatus.OK).body(livro) ;
+		return ResponseEntity.status(HttpStatus.OK).cacheControl(cachecontrol).body(livro) ;
 	}
 	@RequestMapping(value = "/{id}" ,method=RequestMethod.DELETE)
 	public ResponseEntity<Void> deletar(@PathVariable("id") Long id) {

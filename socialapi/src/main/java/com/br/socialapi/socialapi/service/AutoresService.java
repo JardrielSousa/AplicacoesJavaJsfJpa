@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.br.socialapi.socialapi.domain.Autor;
 import com.br.socialapi.socialapi.repository.AutoresRepository;
 import com.br.socialapi.socialapi.service.exceptions.AutorExistenteException;
+import com.br.socialapi.socialapi.service.exceptions.AutorNaoEncontradoException;
 
 @Service
 public class AutoresService {
@@ -26,5 +27,12 @@ public class AutoresService {
 			}
 		}
 		return autoresRepository.save(autor);
+	}
+	public Autor buscar(Long id) {
+		Autor autor = autoresRepository.getOne(id);
+		if(autor == null) {
+			throw new AutorNaoEncontradoException("Autor não encontrado !!!");
+		}
+		return autor;
 	}
 }
