@@ -5,7 +5,6 @@ import java.util.concurrent.TimeUnit;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.web.ResourceProperties.Cache.Cachecontrol;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
@@ -17,9 +16,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.br.socialapi.socialapi.domain.Comentario;
 import com.br.socialapi.socialapi.domain.Livro;
 import com.br.socialapi.socialapi.service.LivrosService;
 import com.br.socialapi.socialapi.service.exceptions.LivroNaoEncontradoExceptions;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/livros")
@@ -30,7 +32,11 @@ public class LivroResources {
 	
 	@RequestMapping(method=RequestMethod.GET)
 	public ResponseEntity<?> listar() {
-		return ResponseEntity.status(HttpStatus.OK).body(livroService.listar()) ;
+		List<Livro> livros =  livroService.listar();
+		if(livros.isEmpty()) {
+			throw new LivroNaoEncontradoExceptions("Não temos livros Cadastrados !!!");
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(livros) ;
 	}
 	@RequestMapping(method=RequestMethod.POST)
 	public ResponseEntity<Void> salvar(@Valid @RequestBody Livro livro) {
@@ -69,5 +75,18 @@ public class LivroResources {
 		}
 		
 		return ResponseEntity.noContent().build();
+	}
+	@RequestMapping(value = "/{id}/comentarios",method=RequestMethod.POST)
+	public ResponseEntity<Void> adicionarComentario(@PathVariable("id") Long livroId , @RequestBody Comentario comentario) {
+		livroService.salvarComentario(livroId , comentario);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+				.build().toUri();
+		return ResponseEntity.created(uri).build();
+	}
+	
+	@RequestMapping(value = "/{id}/comentarios",method=RequestMethod.GET)
+	public ResponseEntity<List<Comentario>> listarComentario(@PathVariable("id") Long livroId) {
+		List<Comentario> comentarios = livroService.listarComentario(livroId);
+		return ResponseEntity.status(HttpStatus.OK).body(comentarios);
 	}
 }

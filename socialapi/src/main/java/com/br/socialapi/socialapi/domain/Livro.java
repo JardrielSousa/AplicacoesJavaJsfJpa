@@ -4,9 +4,13 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -36,11 +40,13 @@ public class Livro implements Serializable{
 	@JsonInclude(Include.NON_NULL)
 	@Size(max = 1500)
 	private String resumo;
-	@JsonInclude(Include.NON_EMPTY)
-	@Transient
-	private List<Comentario> comentario ;
 	@JsonInclude(Include.NON_NULL)
-	private String autor;
+	@OneToMany(mappedBy = "livro")
+	private List<Comentario> comentarios ;
+	@ManyToOne
+	@JoinColumn(name="autorId")
+	@JsonInclude(Include.NON_NULL)
+	private Autor autor;
 	
 	public Livro() {
 		
@@ -79,15 +85,15 @@ public class Livro implements Serializable{
 		this.resumo = resumo;
 	}
 	public List<Comentario> getComentario() {
-		return comentario;
+		return comentarios;
 	}
 	public void setComentario(List<Comentario> comentario) {
-		this.comentario = comentario;
+		this.comentarios = comentario;
 	}
-	public String getAutor() {
+	public Autor getAutor() {
 		return autor;
 	}
-	public void setAutor(String autor) {
+	public void setAutor(Autor autor) {
 		this.autor = autor;
 	}
 	
